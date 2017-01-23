@@ -59,7 +59,7 @@ When a package is *attached*, we can call one of its functions directly. For
 example, we can call `filter()` from package `dplyr`.
 
 ```{r}
-filter(iris, Species == "setosa")
+data()
 ```
 
 We were warned just earlier of a conflict: base package `stats` also has a
@@ -229,11 +229,14 @@ postspss %>%      # Take our dataset,
   map(all) %>%    # pass the result to map() with argument all,
   head()          # and only output the first six elements.
 ```
+**Comment (Karen)** 
+The output from the pipe version is different from the output of the original, and the cause of that is unclear. One difference in the code is the lack of a limitation of 'n=3' in the command, and presumably the default is 6 which is why there are 6 categories in the pipe example. However, there is also a difference in the number of rows output in each case -- in the traditional version all? rows are output, up to 57. In the pipe version only one row is output in each column and the cause of that difference is unclear.
 
 The pipe operator `%>%` comes with the `dplyr` package. Since `names(postspss)`
 is a vector, we would like to get a vector, not a list. Looking up the
 [docs](https://github.com/hadley/purrr#transformation) for `purrr`, we happily
 find the `map_lgl()` function.
+**Comment (Karen)** Why? Also, the identifies multiple functions that return vectors, so it is unclear why map_lgl() is our function of choice here. 
 
 ```{r}
 empty_col <- postspss %>%
@@ -243,6 +246,7 @@ empty_col <- postspss %>%
 empty_col %>%
   head()
 ```
+**Comment (Karen)** I'd like to see an output of the full vector. I did figure out how to do that, but I think other beginners would want to do it, too. Also, the purpose of the 'which' function is a little unclear. OK, it checks that they are all non-empty... does it do this by asking 'which' elements of the vector are "FALSE"?
 
 Let us check that they are all non-empty:
 
@@ -250,9 +254,14 @@ Let us check that they are all non-empty:
 which(empty_col)
 ```
 
-As you now know, we could have run `empty_col %>% which()` alternatively. Since
+As you now know, we could have run `empty_col %>% which()` alternatively. 
+**Comment (Karen)** I did not know, since the action of the piping symbol usage isn't fully explained here, and found the language a little condescending as a result (similar to effect of words like 'obviously' etc, best to avoid in all instructional materials.)
+
+Since
 we do not have empty columns, we will have to wait to showcase
 `postspss %>% select(...)` or `postspss %>% select_(...)` for column selection.
+**Comment (Karen)** This has no meaning to me. What is select_(...) and what would it do for us if we had empty columns?  Recommend either explaining what you'd like to do with these functions or remove this text.
+
 
 Is there any empty row?
 
